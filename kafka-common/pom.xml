@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.tnmk.skeleton.practice-spring-kafka-grpc</groupId>
+    <groupId>com.prateek.skeleton.padsrec-kafka-protobuf-demo</groupId>
     <artifactId>kafka-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -12,8 +12,8 @@
     <description></description>
 
     <parent>
-        <groupId>org.tnmk.skeleton</groupId>
-        <artifactId>practice-spring-kafka-grpc</artifactId>
+        <groupId>com.prateek.skeleton</groupId>
+        <artifactId>padsrec-kafka-protobuf-demo</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
