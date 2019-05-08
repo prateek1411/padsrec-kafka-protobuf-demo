@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.prateek.common.kafka.consumer.KafkaGlobalListenerContainerProperties\
+  ,com.prateek.common.kafka.producer.KafkaGlobalProducerProperties
