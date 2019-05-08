@@ -1,0 +1,1 @@
+# padsrec-kafka-protobuf-demo
