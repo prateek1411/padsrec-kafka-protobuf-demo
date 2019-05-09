@@ -3,7 +3,6 @@ package com.prateek.common.kafka.serialization.protobuf;
 import com.google.protobuf.GeneratedMessageV3;
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.serialization.ExtendedSerializer;
-import org.apache.kafka.common.serialization.Serializer;
 
 import java.util.Map;
 

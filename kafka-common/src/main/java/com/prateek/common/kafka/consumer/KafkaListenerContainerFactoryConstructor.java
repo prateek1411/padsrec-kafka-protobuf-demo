@@ -2,6 +2,8 @@ package com.prateek.common.kafka.consumer;
 
 import com.google.protobuf.GeneratedMessageV3;
 import com.prateek.common.kafka.KafkaConnectibleProperties;
+import com.prateek.common.kafka.serialization.protobuf.DeserializedRecord;
+import com.prateek.common.kafka.serialization.protobuf.ProtobufDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
@@ -14,8 +16,6 @@ import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.util.StringUtils;
-import com.prateek.common.kafka.serialization.protobuf.DeserializedRecord;
-import com.prateek.common.kafka.serialization.protobuf.ProtobufDeserializer;
 
 import java.util.HashMap;
 import java.util.Map;

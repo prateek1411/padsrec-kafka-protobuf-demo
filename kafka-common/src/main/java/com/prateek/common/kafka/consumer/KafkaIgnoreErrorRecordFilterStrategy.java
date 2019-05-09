@@ -1,10 +1,10 @@
 package com.prateek.common.kafka.consumer;
 
+import com.prateek.common.kafka.serialization.protobuf.DeserializedRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.listener.adapter.RecordFilterStrategy;
-import com.prateek.common.kafka.serialization.protobuf.DeserializedRecord;
 
 /**
  * This is the default behavior: filter out all records with exception.

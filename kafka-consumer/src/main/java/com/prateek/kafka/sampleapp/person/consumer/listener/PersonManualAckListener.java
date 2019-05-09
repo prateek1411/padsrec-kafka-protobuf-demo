@@ -1,6 +1,8 @@
 package com.prateek.kafka.sampleapp.person.consumer.listener;
 
+import com.prateek.common.kafka.serialization.protobuf.DeserializedRecord;
 import com.prateek.common.message.protobuf.Person;
+import com.prateek.kafka.sampleapp.person.consumer.usecases.PersonConsumerSampleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,6 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import com.prateek.common.kafka.serialization.protobuf.DeserializedRecord;
-import com.prateek.kafka.sampleapp.person.consumer.usecases.PersonConsumerSampleService;
 
 import java.lang.invoke.MethodHandles;
 
@@ -48,7 +48,7 @@ public class PersonManualAckListener {
     }
 
     private void logReceiveData(Person data, MessageHeaders headers) {
-        Long offset = (Long)headers.get(KafkaHeaders.OFFSET);
-        LOG.info("[MANUAL-ACK]received record[{}]='{}'",offset, data);
+        Long offset = (Long) headers.get(KafkaHeaders.OFFSET);
+        LOG.info("[MANUAL-ACK]received record[{}]='{}'", offset, data);
     }
 }

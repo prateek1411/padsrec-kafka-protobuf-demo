@@ -20,7 +20,7 @@ public class AnyMessageProducerService {
     @Value("${app.topic.anyprotobuf}")
     private String topic;
 
-    public void send(AnyMessage data){
+    public void send(AnyMessage data) {
         LOG.info("sending data='{}' to topic='{}'", data, topic);
 
         kafkaTemplate.send(topic, data);

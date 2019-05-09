@@ -1,6 +1,7 @@
 package com.prateek.kafka.sampleapp.anymessage.consumer.listener;
 
 import com.prateek.kafka.sampleapp.anymessage.consumer.AnyMessageConsumerConfig;
+import com.prateek.kafka.sampleapp.anymessage.consumer.usecases.AnyMessageConsumerSampleService;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.common.TopicPartition;
 import org.slf4j.Logger;
@@ -13,7 +14,6 @@ import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
-import com.prateek.kafka.sampleapp.anymessage.consumer.usecases.AnyMessageConsumerSampleService;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,26 +33,26 @@ public class AnyMessageManualAckListenerErrorHandler implements ConsumerAwareLis
     private AnyMessageConsumerSampleService anyMessageConsumerSampleService;
 
     /**
-     * @see KafkaListenerErrorHandler
      * @param message
      * @param exception
      * @param consumer
      * @return The return is ignore if there no @SendTo configuration. (see more at {@link KafkaListenerErrorHandler}
+     * @see KafkaListenerErrorHandler
      */
     @Override
     public Object handleError(Message<?> message, ListenerExecutionFailedException exception, Consumer<?, ?> consumer) {
-        Long offset = (Long)message.getHeaders().get(KafkaHeaders.OFFSET);
+        Long offset = (Long) message.getHeaders().get(KafkaHeaders.OFFSET);
         message.getHeaders().keySet().forEach(key -> {
             LOGGER.info("{}: {}", key, message.getHeaders().get(key));
         });
         Set<TopicPartition> partitionSet = consumer.assignment();
-        String positionOnPartitions = partitionSet.stream().map(partition -> "Partition: "+partition + ", position: " + consumer.position(partition)).collect(Collectors.joining("\n"));
+        String positionOnPartitions = partitionSet.stream().map(partition -> "Partition: " + partition + ", position: " + consumer.position(partition)).collect(Collectors.joining("\n"));
         LOGGER.error("Error in the consumer." +
-                "\n\tPositions: {}"+
-                "\n\tConsumer Assignment: {}"+
-                "\n\tData: {}." +
-                "\n\tException: {}",
-                positionOnPartitions,consumer.assignment(), message, exception.getMessage(), exception);
+                        "\n\tPositions: {}" +
+                        "\n\tConsumer Assignment: {}" +
+                        "\n\tData: {}." +
+                        "\n\tException: {}",
+                positionOnPartitions, consumer.assignment(), message, exception.getMessage(), exception);
         anyMessageConsumerSampleService.manualAckErrorAtOffset(offset);
         anyMessageConsumerSampleService.manualAckError();
         return null;

@@ -1,18 +1,19 @@
 package com.prateek.common.kafka.producer;
 
 import com.google.protobuf.GeneratedMessageV3;
+import com.prateek.common.kafka.serialization.protobuf.ProtobufSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-import com.prateek.common.kafka.serialization.protobuf.ProtobufSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Please view the UnitTest to see how to use this class.
+ *
  * @param <T>
  */
 public class KafkaProducerTemplateFactory<T extends GeneratedMessageV3> {
@@ -22,7 +23,7 @@ public class KafkaProducerTemplateFactory<T extends GeneratedMessageV3> {
         this.kafkaProperties = kafkaProperties;
     }
 
-    public KafkaTemplate<String, T> createProtobufKafkaTemplate(){
+    public KafkaTemplate<String, T> createProtobufKafkaTemplate() {
         return new KafkaTemplate<>(createProducerFactory(kafkaProperties));
     }
 

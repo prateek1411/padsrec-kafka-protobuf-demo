@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class PersonManualAckListenerProperties extends KafkaListenerContainerProperties {
     //Just extend the superclass so that we can apply the @ConfigurationProperties on the properties of the super class.
     //No need to override anything here.
-    public PersonManualAckListenerProperties(){
+    public PersonManualAckListenerProperties() {
 
     }
 }

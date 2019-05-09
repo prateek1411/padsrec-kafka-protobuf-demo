@@ -3,6 +3,7 @@ package com.prateek.common.kafka.serialization.protobuf;
 import com.google.protobuf.GeneratedMessageV3;
 import com.google.protobuf.Parser;
 import com.prateek.common.message.protobuf.AnyMessage;
+import com.prateek.common.message.protobuf.PadsRecord;
 import com.prateek.common.message.protobuf.Person;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.header.Headers;
@@ -20,10 +21,8 @@ import java.util.Map;
  * @param <T> The Protocol Buffer message type.
  */
 public class ProtobufDeserializer<T extends GeneratedMessageV3> implements ExtendedDeserializer<DeserializedRecord<T>> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProtobufDeserializer.class);
-
     protected static final String PARSER_GETTER_METHOD_NAME = "parser";
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProtobufDeserializer.class);
     protected Parser<T> parser;
 
     /**
@@ -63,9 +62,9 @@ public class ProtobufDeserializer<T extends GeneratedMessageV3> implements Exten
         result.setOriginalBytes(data);
         try {
 
-           // byte[] anydata = parser.parseFrom(data).getAllFields().get()
+            // byte[] anydata = parser.parseFrom(data).getAllFields().get()
             T deseralizedData = parser.parsePartialFrom(data);
-            LOGGER.info("###############"+ Person.class.getCanonicalName() + deseralizedData.getClass().getCanonicalName());
+            LOGGER.info("###############" + Person.class.getCanonicalName() + deseralizedData.getClass().getCanonicalName());
             if (deseralizedData.getClass().getCanonicalName().equals(Person.class.getCanonicalName())) {
                 Person person = (Person) deseralizedData;
                 //FIXME Just used to test the error case inside the Deserialization.
@@ -73,7 +72,12 @@ public class ProtobufDeserializer<T extends GeneratedMessageV3> implements Exten
                     throw new RuntimeException("Deserialization Error Intently");
                 }
             } else {
-                AnyMessage person = (AnyMessage) deseralizedData;
+                AnyMessage anyMessage = (AnyMessage) deseralizedData;
+                if (anyMessage.getPadsrecord().is(PadsRecord.class)) {
+                    PadsRecord padsRecord = anyMessage.getPadsrecord().unpack(PadsRecord.class);
+                    LOGGER.info("PadsRecord = " + padsRecord.getAdditionalinfo(0));
+                }
+
             }
             result.setData(deseralizedData);
 

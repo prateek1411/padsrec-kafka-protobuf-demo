@@ -20,8 +20,9 @@ import java.util.stream.Collectors;
  * Note: If the retry-attempt > 1, the error handler will be only executed after all retries are failed.
  * This ListenerContainerErrorHandler can handle the exception inside {@link org.apache.kafka.common.serialization.Deserializer}.
  * If we con't handle that case, it could cause Endless Loop in the Consumer.
- *
+ * <p>
  * You can register to the listener by using {@link KafkaListenerContainerFactoryConstructor#applyErrorHandler(ConcurrentKafkaListenerContainerFactory, ErrorHandler)}.
+ *
  * @return
  * @see SeekToCurrentErrorHandler
  */
@@ -31,9 +32,10 @@ public class KafkaGlobalListenerContainerErrorHandler implements ContainerAwareE
 
     private ErrorHandler nestedErrorHandler;
 
-    public KafkaGlobalListenerContainerErrorHandler(){
+    public KafkaGlobalListenerContainerErrorHandler() {
         //Default constructor
     }
+
     public KafkaGlobalListenerContainerErrorHandler(ErrorHandler nestedErrorHandler) {
         this.nestedErrorHandler = nestedErrorHandler;
     }
@@ -50,7 +52,7 @@ public class KafkaGlobalListenerContainerErrorHandler implements ContainerAwareE
 
         //Option 3: Just write log and do nothing else.
 
-        if (nestedErrorHandler != null){
+        if (nestedErrorHandler != null) {
             nestedErrorHandler.handle(thrownException, records, consumer, container);
         }
     }
@@ -58,11 +60,12 @@ public class KafkaGlobalListenerContainerErrorHandler implements ContainerAwareE
     /**
      * Advance the next record but don't acknowledge it.
      * If you restart the consumer when there's no newer acknowledged records, it could be replayed if the ack-on-error is false or the ack-mode is MANUAL).
+     *
      * @param consumer
      * @deprecated the solution is not good.
      */
     @Deprecated
-    private void advanceToNextRecord(Consumer consumer){
+    private void advanceToNextRecord(Consumer consumer) {
         Set<TopicPartition> assignment = consumer.assignment();
         // FIXME a consumer may have to handle many partitions of a topic, so this may not a good idea!
         // We may not need to worry about handling records in non-error partitions.
@@ -71,7 +74,7 @@ public class KafkaGlobalListenerContainerErrorHandler implements ContainerAwareE
         });
     }
 
-    private void advanceToNextRecord(Consumer consumer, TopicPartition topicPartition){
+    private void advanceToNextRecord(Consumer consumer, TopicPartition topicPartition) {
         long errorRecordOffset = consumer.position(topicPartition);
         long nextOffset = errorRecordOffset + 1;
         //TODO Handle the error Record. Maybe we want to store it in some ResultReport?

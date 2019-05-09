@@ -11,7 +11,7 @@ import org.springframework.retry.support.RetryTemplate;
 /**
  * This is the Properties for each Consumer.
  * The global Properties for all consumers is configured in {@link KafkaGlobalListenerContainerProperties}
- *
+ * <p>
  * The properties inside here could be reused for different topics, consumer groups and messageType.
  * So there will be no specific topics and consumers information here.
  * This file provides a convenient mapping with properties configuration in *.yml file.
