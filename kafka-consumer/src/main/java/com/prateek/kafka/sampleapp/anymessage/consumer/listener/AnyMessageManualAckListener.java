@@ -1,7 +1,9 @@
 package com.prateek.kafka.sampleapp.anymessage.consumer.listener;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.prateek.common.kafka.serialization.protobuf.DeserializedRecord;
 import com.prateek.common.message.protobuf.AnyMessage;
+import com.prateek.common.message.protobuf.PadsRecord;
 import com.prateek.kafka.sampleapp.anymessage.consumer.usecases.AnyMessageConsumerSampleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +51,19 @@ public class AnyMessageManualAckListener {
 
     private void logReceiveData(AnyMessage data, MessageHeaders headers) {
         Long offset = (Long) headers.get(KafkaHeaders.OFFSET);
+        if (data.getClass().getCanonicalName().equals(AnyMessage.class.getCanonicalName())) {
+            AnyMessage anyMessage = (AnyMessage) data;
+            if (anyMessage.getPadsrecord().is(PadsRecord.class)) {
+                PadsRecord padsRecord = PadsRecord.newBuilder().build();
+                try {
+                    padsRecord = anyMessage.getPadsrecord().unpack(PadsRecord.class);
+                } catch (InvalidProtocolBufferException e) {
+                    e.printStackTrace();
+                }
+                LOG.info("PadsRecord = " + padsRecord.getAdditionalinfo(0));
+            }
+
+        }
         LOG.info("[MANUAL-ACK]received record[{}]='{}'", offset, data);
     }
 }

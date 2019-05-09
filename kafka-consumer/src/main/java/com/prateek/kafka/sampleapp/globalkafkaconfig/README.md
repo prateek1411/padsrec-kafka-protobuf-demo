@@ -1,1 +1,0 @@
-Global Kafka Config: This package provides the common configuration which could be shared to different Kafka consumers and producers.

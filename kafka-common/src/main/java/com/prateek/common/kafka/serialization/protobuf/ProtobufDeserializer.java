@@ -2,9 +2,6 @@ package com.prateek.common.kafka.serialization.protobuf;
 
 import com.google.protobuf.GeneratedMessageV3;
 import com.google.protobuf.Parser;
-import com.prateek.common.message.protobuf.AnyMessage;
-import com.prateek.common.message.protobuf.PadsRecord;
-import com.prateek.common.message.protobuf.Person;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.serialization.ExtendedDeserializer;
@@ -61,26 +58,8 @@ public class ProtobufDeserializer<T extends GeneratedMessageV3> implements Exten
         DeserializedRecord<T> result = new DeserializedRecord<>();
         result.setOriginalBytes(data);
         try {
-
-            // byte[] anydata = parser.parseFrom(data).getAllFields().get()
-            T deseralizedData = parser.parsePartialFrom(data);
-            LOGGER.info("###############" + Person.class.getCanonicalName() + deseralizedData.getClass().getCanonicalName());
-            if (deseralizedData.getClass().getCanonicalName().equals(Person.class.getCanonicalName())) {
-                Person person = (Person) deseralizedData;
-                //FIXME Just used to test the error case inside the Deserialization.
-                if (person.getRealName().contains("DeErr")) {
-                    throw new RuntimeException("Deserialization Error Intently");
-                }
-            } else {
-                AnyMessage anyMessage = (AnyMessage) deseralizedData;
-                if (anyMessage.getPadsrecord().is(PadsRecord.class)) {
-                    PadsRecord padsRecord = anyMessage.getPadsrecord().unpack(PadsRecord.class);
-                    LOGGER.info("PadsRecord = " + padsRecord.getAdditionalinfo(0));
-                }
-
-            }
-            result.setData(deseralizedData);
-
+         T deseralizedData = parser.parsePartialFrom(data);
+         result.setData(deseralizedData);
         } catch (Exception e) {
             //We would like to catch all kind of exception here, because even only one exception could cause endless loop in Consumer.
             //View more in {@link KafkaGlobalContainerErrorHandler}
