@@ -57,10 +57,11 @@ public class AnyMessageManualAckListener {
                 PadsRecord padsRecord = PadsRecord.newBuilder().build();
                 try {
                     padsRecord = anyMessage.getPadsrecord().unpack(PadsRecord.class);
+                    LOG.info("PadsRecord = " + padsRecord.toString());
                 } catch (InvalidProtocolBufferException e) {
                     e.printStackTrace();
                 }
-                LOG.info("PadsRecord = " + padsRecord.getAdditionalinfo(0));
+
             }
 
         }

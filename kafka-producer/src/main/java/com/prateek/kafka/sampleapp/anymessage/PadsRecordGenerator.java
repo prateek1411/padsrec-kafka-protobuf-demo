@@ -1,8 +1,6 @@
-package com.prateek.loadgenerator.record;
+package com.prateek.kafka.sampleapp.anymessage;
 
 import com.prateek.common.message.protobuf.PadsRecord;
-import io.grpc.BindableService;
-import io.grpc.ServerServiceDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -10,9 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static io.grpc.reflection.v1alpha.ServerReflectionGrpc.getServiceDescriptor;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 
 @Component
 public class PadsRecordGenerator {
