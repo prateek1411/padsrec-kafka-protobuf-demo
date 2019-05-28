@@ -1,10 +1,12 @@
+spring.data.elasticsearch:
+  cluster-name: docker-cluster
+  cluster-nodes: localhost:9300
 server.port: ${port:8081}
 kafka-global-consumer:
   # The value comes from the Embedded Kafka: ${spring.embedded.kafka.brokers}
   bootstrap-servers: 192.168.99.100:9092
 
-#This configuration is specific for Person domain only.
-person-auto-commit-consumer:
+record-auto-commit-consumer:
   auto-offset-reset: earliest
   request-timeout: 60000
   session-timeout: 30000
@@ -15,27 +17,7 @@ person-auto-commit-consumer:
   retry-attempt: 2
   retry-backoff-period: 3000
 
-person-manual-commit-consumer:
-  auto-commit: false
-  auto-commit-interval: 3000
-  ack-on-error: true
-  ack-mode: MANUAL
-  session-timeout: 25000
-  retry-attempt: 1
-  retry-backoff-period: 10000
-
-anymessage-auto-commit-consumer:
-  auto-offset-reset: earliest
-  request-timeout: 60000
-  session-timeout: 30000
-  ack-on-error: true
-  # Retry Attempt must be > 0
-  # If the retry-attempt > 1, the error handler will be only executed after all retry attempt.
-  # But we also want to test the error handler, so I set retry-attempt is 1.
-  retry-attempt: 2
-  retry-backoff-period: 3000
-
-anymessage-manual-commit-consumer:
+record-manual-commit-consumer:
   auto-commit: false
   auto-commit-interval: 3000
   ack-on-error: true
@@ -47,4 +29,4 @@ anymessage-manual-commit-consumer:
 app:
   topic:
     example: topic.01
-    anyprotobuf: topic.02
+    record: topic.02

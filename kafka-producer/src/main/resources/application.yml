@@ -1,11 +1,11 @@
-server.port: ${port:8080}
+server.port: ${port:9090}
 kafka-global-producer:
   bootstrap-servers: 192.168.99.100:9092
 
 app:
   topic:
     example: topic.01
-    anyprotobuf: topic.02
+    record: topic.02
 
 
 

@@ -9,7 +9,7 @@ bootstrap:
 app:
   topic:
     example: topic.01
-    anyprotobuf: topic.02
+    record: topic.02
 
 spring:
   h2.console.enabled: true
