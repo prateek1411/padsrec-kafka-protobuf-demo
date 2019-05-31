@@ -43,7 +43,7 @@ public class RecordManualAckListenerErrorHandler implements ConsumerAwareListene
     public Object handleError(Message<?> message, ListenerExecutionFailedException exception, Consumer<?, ?> consumer) {
         Long offset = (Long) message.getHeaders().get(KafkaHeaders.OFFSET);
         message.getHeaders().keySet().forEach(key -> {
-            LOGGER.info("{}: {}", key, message.getHeaders().get(key));
+            LOGGER.debug("{}: {}", key, message.getHeaders().get(key));
         });
         Set<TopicPartition> partitionSet = consumer.assignment();
         String positionOnPartitions = partitionSet.stream().map(partition -> "Partition: " + partition + ", position: " + consumer.position(partition)).collect(Collectors.joining("\n"));

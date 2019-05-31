@@ -49,6 +49,6 @@ public class RecordManualAckListener {
 
     private void logReceiveData(Record data, MessageHeaders headers) {
         Long offset = (Long) headers.get(KafkaHeaders.OFFSET);
-        LOG.info("[MANUAL-ACK]received record[{}]='{}'", offset, data);
+        LOG.debug("[MANUAL-ACK]received record[{}]='{}'", offset, data);
     }
 }

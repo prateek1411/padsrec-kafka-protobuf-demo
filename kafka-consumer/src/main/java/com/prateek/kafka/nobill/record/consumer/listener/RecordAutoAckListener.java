@@ -37,6 +37,6 @@ public class RecordAutoAckListener {
 
     private void logReceiveData(Record data, MessageHeaders headers) {
         Long offset = (Long) headers.get(KafkaHeaders.OFFSET);
-        LOG.info("[AUTO-ACK]received record[{}]='{}'", offset, data);
+        LOG.debug("[AUTO-ACK]received record[{}]='{}'", offset, data);
     }
 }

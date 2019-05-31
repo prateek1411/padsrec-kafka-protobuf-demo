@@ -9,8 +9,6 @@ import com.prateek.common.message.protobuf.Record;
 public interface RecordConsumerSampleService {
     void autoAck(Record record);
 
-    void manualAck(Record record);
-
     void autoAckError();
 
     void autoAckErrorAtOffset(long offset);
@@ -18,4 +16,6 @@ public interface RecordConsumerSampleService {
     void manualAckError();
 
     void manualAckErrorAtOffset(long offset);
+
+     void manualAck(Record record);
 }

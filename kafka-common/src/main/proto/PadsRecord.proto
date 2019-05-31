@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "com.prateek.common.message.protobuf";
+package com.prateek.common.message.protobuf;
 import "google/protobuf/timestamp.proto";
 
 message PadsRecord {

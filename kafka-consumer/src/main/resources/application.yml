@@ -1,8 +1,11 @@
 spring.data.elasticsearch:
+#  cluster-name: elasticsearch
   cluster-name: docker-cluster
   cluster-nodes: localhost:9300
+#  cluster-nodes: 172.16.101.220:9300
 server.port: ${port:8081}
 kafka-global-consumer:
+  # The value comes from the Embedded Kafka: ${spring.embedded.kafka.brokers}
   # The value comes from the Embedded Kafka: ${spring.embedded.kafka.brokers}
   bootstrap-servers: 192.168.99.100:9092
 
