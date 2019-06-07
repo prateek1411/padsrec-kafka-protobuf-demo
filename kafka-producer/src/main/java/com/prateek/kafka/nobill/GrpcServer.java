@@ -48,6 +48,11 @@ public class GrpcServer {
     public void stop() {
         if (this.server != null) {
             this.server.shutdown();
+            try {
+                this.server.awaitTermination();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

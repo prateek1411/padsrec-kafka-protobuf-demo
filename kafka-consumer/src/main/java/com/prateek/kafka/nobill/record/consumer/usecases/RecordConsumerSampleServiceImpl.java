@@ -1,22 +1,21 @@
 package com.prateek.kafka.nobill.record.consumer.usecases;
 
-import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import com.prateek.common.message.protobuf.PadsRecord;
 import com.prateek.common.message.protobuf.Record;
-import com.prateek.kafka.nobill.record.consumer.elk.ElkRecord;
-import com.prateek.kafka.nobill.record.consumer.elk.RecordConsumerElkService;
-import com.prateek.kafka.nobill.record.consumer.elk.RecordConsumerElkServiceImpl;
+import com.prateek.kafka.nobill.record.consumer.elk.ElkConfig;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RecordConsumerSampleServiceImpl implements RecordConsumerSampleService {
@@ -25,35 +24,37 @@ public class RecordConsumerSampleServiceImpl implements RecordConsumerSampleServ
      */
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    //  @Autowired
+    //  RecordConsumerElkServiceImpl recordConsumerElkServiceImpl;
+
     @Autowired
-    RecordConsumerElkServiceImpl recordConsumerElkServiceImpl;
+    ElkConfig elkConfig;
 
     @Override
     public void autoAck(Record record) {
 
     }
+
     @Override
     public void manualAck(Record record) {
-        //logger.info("autoAck: {}", record);
-        if (record.getChild().getTypeUrl().equals("type.sinchapis.com/com.prateek.common.message.protobuf.PadsRecord")) {
-                PadsRecord padsRecord = null;
-                try {
-                    padsRecord = record.getChild().unpack(PadsRecord.class);
-                    ElkRecord elkRecord = new ElkRecord(padsRecord.getSeqno(),JsonFormat.printer().print(padsRecord));
-                    recordConsumerElkServiceImpl.save(elkRecord);
-                    Iterable <ElkRecord> elkRecords =  new ArrayList<>();
-                    elkRecords = recordConsumerElkServiceImpl.findAll();
-                    for (ElkRecord elk : elkRecords)  {
-                        logger.info("PadsRecord = " + elk.getRecord());
-                    }
+        if (record.getChild().is(PadsRecord.class)) {
+            try {
 
-                } catch (InvalidProtocolBufferException e) {
-                    e.printStackTrace();
-                }
+                IndexRequest request = new IndexRequest("record_index")
+                        .id(Long.toString(record.getSeqno()))
+                        .source(JsonFormat.printer().print(record.getChild().unpack(PadsRecord.class)), XContentType.JSON);
 
+                IndexResponse indexResponse = elkConfig.client().index(request, RequestOptions.DEFAULT);
+
+                System.out.println("ELK HTTP RESP: " + indexResponse.status().getStatus());
+
+            } catch (InvalidProtocolBufferException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
         }
+    }
 
     @Override
     public void autoAckError() {

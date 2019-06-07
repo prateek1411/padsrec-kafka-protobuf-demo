@@ -27,7 +27,7 @@ public class ProducerApplication {
         logger.info ("GRPC Server running on the port {}",port);
         GrpcServer server = ctx.getAutowireCapableBeanFactory().createBean(GrpcServer.class);
         server.start(port);
-      }
+        }
 
     private static int getPort(String[] args) {
         int port = 9001;

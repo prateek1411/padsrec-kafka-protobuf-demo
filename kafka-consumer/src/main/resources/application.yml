@@ -1,7 +1,7 @@
-spring.data.elasticsearch:
+#spring.data.elasticsearch:
 #  cluster-name: elasticsearch
-  cluster-name: docker-cluster
-  cluster-nodes: localhost:9300
+#  cluster-name: docker-cluster
+#  cluster-nodes: localhost:9300
 #  cluster-nodes: 172.16.101.220:9300
 server.port: ${port:8081}
 kafka-global-consumer:
