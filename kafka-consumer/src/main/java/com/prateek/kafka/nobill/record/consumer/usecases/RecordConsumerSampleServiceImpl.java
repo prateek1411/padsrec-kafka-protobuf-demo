@@ -46,7 +46,7 @@ public class RecordConsumerSampleServiceImpl implements RecordConsumerSampleServ
 
                 IndexResponse indexResponse = elkConfig.client().index(request, RequestOptions.DEFAULT);
 
-                System.out.println("ELK HTTP RESP: " + indexResponse.status().getStatus());
+                logger.info("ELK HTTP RESP: " + indexResponse.status().getStatus());
 
             } catch (InvalidProtocolBufferException e) {
                 e.printStackTrace();
