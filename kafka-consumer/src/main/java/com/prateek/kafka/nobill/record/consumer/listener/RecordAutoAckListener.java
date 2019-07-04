@@ -1,7 +1,7 @@
 package com.prateek.kafka.nobill.record.consumer.listener;
 
 import com.prateek.common.kafka.serialization.protobuf.DeserializedRecord;
-import com.prateek.common.message.protobuf.Record;
+import com.sinch.common.message.protobuf.Record;
 import com.prateek.kafka.nobill.record.consumer.usecases.RecordConsumerSampleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

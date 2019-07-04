@@ -2,7 +2,7 @@ package com.prateek.kafka.nobill.record.consumer;
 
 import com.prateek.common.kafka.consumer.KafkaListenerContainerFactoryConstructor;
 import com.prateek.common.kafka.serialization.protobuf.ProtobufDeserializer;
-import com.prateek.common.message.protobuf.Record;
+import com.sinch.common.message.protobuf.Record;
 import com.prateek.kafka.nobill.record.consumer.listener.RecordAutoAckListenerProperties;
 import com.prateek.kafka.nobill.record.consumer.listener.RecordManualAckListenerProperties;
 import org.springframework.beans.factory.annotation.Autowired;

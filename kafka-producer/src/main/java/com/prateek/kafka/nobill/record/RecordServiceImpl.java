@@ -1,6 +1,6 @@
 package com.prateek.kafka.nobill.record;
 
-import com.prateek.common.message.protobuf.*;
+import com.sinch.common.message.protobuf.*;
 import com.prateek.kafka.nobill.GrpcService;
 import io.grpc.stub.StreamObserver;
 import org.slf4j.Logger;
@@ -18,14 +18,34 @@ public class RecordServiceImpl extends RecordServiceGrpc.RecordServiceImplBase i
     private RecordProducerService recordProducerService;
 
     @Override
-    public void sendRequest(Record request,
-                            StreamObserver<RecordResponse> responseObserver) {
+    public StreamObserver<Record> sendRequest(final StreamObserver<RecordResponse> responseObserver) {
 
-        recordProducerService.send(request);
-        RecordResponse anyResponse = RecordResponse.newBuilder().setResponse("Success").build();
+        return new StreamObserver<Record>() {
+            @Override
+            public void onNext(Record record) {
+            recordProducerService.send(record);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                System.out.println("gRPC Failed");
+                System.out.println(t.getMessage());
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("Finished gRPC");
+            }
+            /*
+            recordProducerService.send(request);
+            RecordResponse anyResponse = RecordResponse.newBuilder().setResponse("Success").build();
         logger.info(anyResponse.getResponse());
             responseObserver.onNext(anyResponse);
             responseObserver.onCompleted();
-        }
+
+             */
+
+        };
+    }
     }
 

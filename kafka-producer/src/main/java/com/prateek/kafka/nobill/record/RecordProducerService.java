@@ -1,7 +1,7 @@
 package com.prateek.kafka.nobill.record;
 
 import com.google.protobuf.GeneratedMessageV3;
-import com.prateek.common.message.protobuf.Record;
+import com.sinch.common.message.protobuf.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,7 @@ public class RecordProducerService {
     public void send(Record data) {
         LOG.info("sending data='{}' to topic='{}'", data, topic);
 
+       // kafkaTemplate.send()
         kafkaTemplate.send(topic, data);
     }
 }

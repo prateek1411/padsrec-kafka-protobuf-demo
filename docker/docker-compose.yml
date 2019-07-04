@@ -2,20 +2,20 @@ version: '3.4'
 
 services:
 
-  prateek_kafka_producer:
-    image: prateek1411/kafka-producer:1.0.0
-    container_name: prateek_kafka_producer
-    restart: always
-    ports:
-      - 9001:9001
-      - 9090:9090
+    #  prateek_kafka_producer:
+    #image: prateek1411/kafka-producer:1.0.0
+    #container_name: prateek_kafka_producer
+    #restart: always
+    #ports:
+    #  - 9001:9001
+    #  - 9090:9090
   
-  prateek_kafka_consumer:
-    image: prateek1411/kafka-consumer:1.0.0
-    container_name: prateek_kafka_consumer
-    restart: always
-    ports:
-      - 8081:8081
+    #prateek_kafka_consumer:
+    #image: prateek1411/kafka-consumer:1.0.0
+    #container_name: prateek_kafka_consumer
+    #restart: always
+    #ports:
+    #  - 8081:8081
 
   prateek_elasticsearch:
     image: elasticsearch:6.6.0

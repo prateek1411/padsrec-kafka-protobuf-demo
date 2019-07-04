@@ -1,11 +1,14 @@
 package com.prateek.records;
 
 import com.google.protobuf.Any;
-import com.prateek.common.message.protobuf.*;
+import com.sinch.common.message.protobuf.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.CountDownLatch;
 
 
 public class AnyMessageGrpcClient {
@@ -17,14 +20,35 @@ public class AnyMessageGrpcClient {
                 .usePlaintext(true)
                 .build();
 
-        RecordServiceGrpc.RecordServiceBlockingStub stub = RecordServiceGrpc.newBlockingStub(channel);
+        final CountDownLatch finishLatch = new CountDownLatch(1);
 
-        PadsRecord padsRecord = PadsRecord.newBuilder().addAdditionalinfo("Bla Bla Bla ...").build();
+        StreamObserver<RecordResponse> responseObserver = new StreamObserver<RecordResponse>() {
 
+            @Override
+            public void onNext(RecordResponse response) {
 
-        RecordResponse anyResponce = stub.sendRequest(Record.newBuilder().setChild(Any.pack(padsRecord)).build());
+            }
 
-        logger.info(anyResponce.getResponse());
+            @Override
+            public void onError(Throwable t) {
+                System.out.println("gRPC Failed");
+                System.out.println(t.getMessage());
+                finishLatch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("Finished gRPC");
+                finishLatch.countDown();
+            }
+
+        };
+
+        RecordServiceGrpc.RecordServiceStub stub = RecordServiceGrpc.newStub(channel);
+
+        //PadsRecord padsRecord = PadsRecord.newBuilder().addAdditionalinfo("Bla Bla Bla ...").build();
+        StreamObserver<Record> requestObserver = stub.sendRequest(responseObserver);
+
         channel.shutdown();
     }
 }

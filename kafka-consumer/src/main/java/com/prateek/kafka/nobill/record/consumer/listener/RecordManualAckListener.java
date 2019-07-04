@@ -1,7 +1,7 @@
 package com.prateek.kafka.nobill.record.consumer.listener;
 
 import com.prateek.common.kafka.serialization.protobuf.DeserializedRecord;
-import com.prateek.common.message.protobuf.Record;
+import com.sinch.common.message.protobuf.Record;
 import com.prateek.kafka.nobill.record.consumer.usecases.RecordConsumerSampleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +26,8 @@ public class RecordManualAckListener {
 
     private final static Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    private int counter;
+
     @Autowired
     private RecordConsumerSampleService recordConsumerSampleService;
 
@@ -40,7 +42,7 @@ public class RecordManualAckListener {
             //We do this to test the Error Handler
             throw new IllegalArgumentException("The real name must be not empty: " + data);
         } else {
-            recordConsumerSampleService.manualAck(data);
+            recordConsumerSampleService.manualAck(data,counter++);
         }
         // Note: Even if the don't call acknowledge(), the Listener still continue processing the next item. It doesn't stuck here.
         // However, when we restart the application, it will replay old records which are not acknowledged yet.

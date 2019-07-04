@@ -1,12 +1,13 @@
 syntax = "proto3";
 import "google/protobuf/any.proto";
+package com.sinch.common.message.protobuf;
 option java_multiple_files = true;
-
-package com.prateek.common.message.protobuf;
+//option java_outer_classname = "RecordOuterClass";
 
 message Record {
-    fixed64 seqno = 1;
-    google.protobuf.Any child = 2;
+    google.protobuf.Any child = 1;
+    fixed64 seqno = 2;
+    string node = 3;
 }
 
 message RecordResponse {
@@ -14,5 +15,5 @@ message RecordResponse {
 }
 
 service RecordService {
-    rpc sendRequest(Record) returns (RecordResponse);
+    rpc sendRequest(stream Record) returns (RecordResponse);
 }

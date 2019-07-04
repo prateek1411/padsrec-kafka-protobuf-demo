@@ -1,8 +1,8 @@
 package com.prateek.kafka.nobill.record;
 
 import com.google.protobuf.Any;
-import com.prateek.common.message.protobuf.Record;
-import com.prateek.common.message.protobuf.PadsRecord;
+import com.sinch.common.message.protobuf.Record;
+import com.sinch.common.message.protobuf.PadsRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
